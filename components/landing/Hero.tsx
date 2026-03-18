@@ -18,6 +18,7 @@ export default function Hero() {
   }, [searchParams])
 
   const signInWith = async (provider: 'github' | 'google') => {
+    if (!supabase) return
     setAuthLoading(provider)
     await supabase.auth.signInWithOAuth({
       provider,

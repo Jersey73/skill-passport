@@ -44,7 +44,7 @@ export default function Step2Resume({ userId, onNext, onBack }: Step2Props) {
   }, [handleFile])
 
   const uploadResume = async () => {
-    if (!file) return
+    if (!file || !supabase) return
     setState('uploading')
     setProgress(0)
 

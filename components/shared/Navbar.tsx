@@ -16,9 +16,11 @@ export default function Navbar() {
   const supabase = createClient()
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUser(data.user))
+    if (!supabase) return
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
+    supabase.auth.getUser().then(({ data }: { data: { user: User | null } }) => setUser(data.user))
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_: any, session: any) => {
       setUser(session?.user ?? null)
     })
 
@@ -32,6 +34,7 @@ export default function Navbar() {
   }, [])
 
   const handleSignOut = async () => {
+    if (!supabase) return
     await supabase.auth.signOut()
     router.push('/')
   }
